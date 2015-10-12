@@ -1,5 +1,6 @@
 package regimeister.modic;
 
+import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -12,10 +13,18 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.ArrayAdapter;
+
+
+import java.util.ArrayList;
+
+import regimeister.modic.Models.Country;
 
 public class MainActivity extends AppCompatActivity {
 //    http://kayaposoft.com/enrico/json/v1.0/?action=getPublicHolidaysForDateRange&fromDate=04-07-2012&toDate=04-07-2014&country=usa
+
+    private ArrayList<Country> countries = new ArrayList<>();
+    MyAdapter adapter;
+    LinearLayoutManager llm;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,95 +41,109 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        fillData();
+
         RecyclerView rv = (RecyclerView) findViewById(R.id.my_recycler_view);
         rv.setHasFixedSize(true);
-        LinearLayoutManager llm = new LinearLayoutManager(getApplicationContext());
+        llm = new LinearLayoutManager(getApplicationContext());
         rv.setLayoutManager(llm);
+
+        adapter = new MyAdapter(countries);
+        rv.setAdapter(adapter);
     }
 
-    private void showDialog(){
-        AlertDialog.Builder builderSingle = new AlertDialog.Builder(
-                MainActivity.this);
+    private void fillData() {
+        Context con=getApplicationContext();
+        countries.add(new Country(con,"Angola","ago",R.drawable.angola));
+        countries.add(new Country(con,"Australia","aus",R.drawable.australia));
+        countries.add(new Country(con,"Austria","aut",R.drawable.austria));
+        countries.add(new Country(con,"Belgium","",R.drawable.belgium));
+        countries.add(new Country(con,"Canada","can",R.drawable.canada));
+        countries.add(new Country(con,"China","chn",R.drawable.china));
+        countries.add(new Country(con,"Croatia","hrv",R.drawable.croatia));
+        countries.add(new Country(con,"Czech Republic","cze",R.drawable.czechrepublic));
+        countries.add(new Country(con,"Denmark","dnk",R.drawable.denmark));
+        countries.add(new Country(con,"England","eng",R.drawable.england));
+        countries.add(new Country(con,"Estonia","est",R.drawable.estonia));
+        countries.add(new Country(con,"Finland","fin",R.drawable.finland));
+        countries.add(new Country(con,"France","fra",R.drawable.france));
+        countries.add(new Country(con,"Germany","ger",R.drawable.germany));
+        countries.add(new Country(con,"Hong Kong","hkg",R.drawable.hongkong));
+        countries.add(new Country(con,"Hungary","hun",R.drawable.hungary));
+        countries.add(new Country(con,"Iceland","isl",R.drawable.iceland));
+        countries.add(new Country(con,"Ireland","urk",R.drawable.ireland));
+        countries.add(new Country(con,"Isle of Man","imn",R.drawable.isleofman));
+        countries.add(new Country(con,"Israel","isr",R.drawable.israel));
+        countries.add(new Country(con,"Italy","ita",R.drawable.italy));
+        countries.add(new Country(con,"Japan","jpn",R.drawable.japan));
+        countries.add(new Country(con,"Latvia","lva",R.drawable.latvia));
+        countries.add(new Country(con,"Lithuania","ltu",R.drawable.lithuania));
+        countries.add(new Country(con,"Luxembourg","lux",R.drawable.luxembourg));
+        countries.add(new Country(con,"Mexico","mex",R.drawable.mexico));
+        countries.add(new Country(con,"Netherlands","nld",R.drawable.netherlands));
+        countries.add(new Country(con,"New Zealand","nzl",R.drawable.newzealand));
+        countries.add(new Country(con,"Northern Ireland","nir",R.drawable.ireland));
+        countries.add(new Country(con,"Norway","nor",R.drawable.norway));
+        countries.add(new Country(con,"Poland","pol",R.drawable.poland));
+        countries.add(new Country(con,"Portugal","prt",R.drawable.portugal));
+        countries.add(new Country(con,"Russia","rus",R.drawable.russia));
+        countries.add(new Country(con,"Serbia","srb",R.drawable.serbia));
+        countries.add(new Country(con,"Slovakia","svk",R.drawable.slovakia));
+        countries.add(new Country(con,"Slovenia","svn",R.drawable.slovenia));
+        countries.add(new Country(con,"South Africa","zaf",R.drawable.southafrica));
+        countries.add(new Country(con,"South Korea","rok",R.drawable.southkorea));
+        countries.add(new Country(con,"Sweden","swe",R.drawable.sweden));
+        countries.add(new Country(con,"Ukraine","ukr",R.drawable.ukraine));
+        countries.add(new Country(con,"United States of America","usa",R.drawable.unitedstates));
+    }
 
-        builderSingle.setTitle("Select the country");
-        final ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(
-                MainActivity.this,
-                android.R.layout.select_dialog_singlechoice);
-        arrayAdapter.add("Angola");
-        arrayAdapter.add("Australia");
-        arrayAdapter.add("Austria");
-        arrayAdapter.add("Belgium");
-        arrayAdapter.add("Canada");
-        arrayAdapter.add("China");
-        arrayAdapter.add("Croatia");
-        arrayAdapter.add("Czech Republic");
-        arrayAdapter.add("Denmark");
-        arrayAdapter.add("England");
-        arrayAdapter.add("Estonia");
-        arrayAdapter.add("Finland");
-        arrayAdapter.add("France");
-        arrayAdapter.add("Germany");
-        arrayAdapter.add("Hong Kong");
-        arrayAdapter.add("Hungary");
-        arrayAdapter.add("Iceland");
-        arrayAdapter.add("Ireland");
-        arrayAdapter.add("Isle of Man");
-        arrayAdapter.add("Israel");
-        arrayAdapter.add("Italy");
-        arrayAdapter.add("Japan");
-        arrayAdapter.add("Latvia");
-        arrayAdapter.add("Lithuania");
-        arrayAdapter.add("Luxembourg");
-        arrayAdapter.add("Mexico");
-        arrayAdapter.add("Netherlands");
-        arrayAdapter.add("New Zealand");
-        arrayAdapter.add("Northern Ireland");
-        arrayAdapter.add("Norway");
-        arrayAdapter.add("Poland");
-        arrayAdapter.add("Portugal");
-        arrayAdapter.add("Russia");
-        arrayAdapter.add("Serbia");
-        arrayAdapter.add("Slovakia");
-        arrayAdapter.add("Slovenia");
-        arrayAdapter.add("South Africa");
-        arrayAdapter.add("South Korea");
-        arrayAdapter.add("Sweden");
-        arrayAdapter.add("Ukraine");
-        arrayAdapter.add("United States of America");
-        builderSingle.setNegativeButton("cancel",
-                new DialogInterface.OnClickListener() {
-
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.dismiss();
-                    }
-                });
-
-        builderSingle.setAdapter(arrayAdapter,
-                new DialogInterface.OnClickListener() {
-
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        String strName = arrayAdapter.getItem(which);
-                        AlertDialog.Builder builderInner = new AlertDialog.Builder(
-                                MainActivity.this);
-                        builderInner.setMessage(strName);
-                        builderInner.setTitle("Your Selected Item is");
-                        builderInner.setPositiveButton("Ok",
-                                new DialogInterface.OnClickListener() {
-
-                                    @Override
-                                    public void onClick(
-                                            DialogInterface dialog,
-                                            int which) {
-                                        dialog.dismiss();
-                                    }
-                                });
-                        builderInner.show();
-                    }
-                });
-        builderSingle.show();
+    private void showDialog() {
+        adapter.add(0,new Country(getApplicationContext(),"Angola","ago",R.drawable.angola));
+        llm.scrollToPosition(0);
     }
 
 
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
